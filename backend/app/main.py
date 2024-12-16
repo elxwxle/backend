@@ -26,6 +26,7 @@ class Todo(Base):
 
 # Initialize Database's Table
 Base.metadata.create_all(bind=engine)
+
 '''
 VALIDATION
 '''
@@ -34,13 +35,16 @@ class TodoBase(BaseModel):
     title: str
     description: str | None = None
     completed: bool = False
+
 class TodoCreate(TodoBase):
     pass
+
 class TodoResponse(TodoBase):
     id: int
     
     class Config:
-        orm_mode = True
+        from_attributes = True
+
 # Database Injection
 def get_db():
     db = SessionLocal()
@@ -48,6 +52,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
 '''
 ROUTING
 '''
@@ -58,17 +63,20 @@ def create_todo(todo: TodoCreate, db: Session = Depends(get_db())):
     db.commit()
     db.refresh(db_todo)
     return db_todo
+
 @app.get("/todos", response_model=list[TodoResponse])
-def read_todos(db: Session = Depends(get_db())):
+def read_todos(db: Session = Depends(get_db)):
     return db.query(Todo).all()
+
 @app.get("/todo/{todo_id}", response_model=TodoResponse)
-def read_todo(todo_id: int, db: Session = Depends(get_db())):
+def read_todo(todo_id: int, db: Session = Depends(get_db)):
     db_todo = db.query(Todo).filter(Todo.id == todo_id).first()
     if not db_todo:
         raise HTTPException(status_code=404, details="Todo not found")
     return db_todo
+
 @app.put("/todo/{todo_id}", response_model=TodoResponse)
-def update_todo(todo_id: int, todo: TodoCreate, db: Session = Depends(get_db())):
+def update_todo(todo_id: int, todo: TodoCreate, db: Session = Depends(get_db)):
     db_todo = db.query(Todo).filter(Todo.id == todo_id).first()
     if not db_todo:
         raise HTTPException(status_code=404, details="Todo not found")
@@ -77,8 +85,9 @@ def update_todo(todo_id: int, todo: TodoCreate, db: Session = Depends(get_db()))
     db.commit()
     db.refresh(db_todo)
     return db_todo
+
 @app.delete("/todo/{todo_id}")
-def delete_todo(todo_id: int, db: Session = Depends(get_db())):
+def delete_todo(todo_id: int, db: Session = Depends(get_db)):
     db_todo = db.query(Todo).filter(Todo.id == todo_id).first()
     if not db_todo:
         raise HTTPException(status_code=404, details="Todo not found")
