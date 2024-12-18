@@ -1,0 +1,8 @@
+# 強制所有 .py 檔案使用 LF
+*.py text eol=lf
+
+# 強制所有 .ini 檔案使用 LF
+*.ini text eol=lf
+
+# 避免轉換其他檔案
+* text=auto
