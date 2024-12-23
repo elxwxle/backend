@@ -9,13 +9,23 @@ class Todo(Base):
     description = Column(String, nullable=True)
     completed = Column(Boolean, default=False)
     due_date = Column(Date, nullable=True)
+<<<<<<< HEAD
     priority = Column(Integer, default=1)
 
 class User(Base):
     __tablename__ = "Users"
+=======
+
+class User(Base):
+    __tablename__ = "users"
+>>>>>>> 617/main
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, nullable=False)
     password = Column(String, nullable=False)
+<<<<<<< HEAD
     email = Column(String, unique=True, nullable=False)
     
+=======
+    email = Column(String, unique=True, nullable=False)
+>>>>>>> 617/main

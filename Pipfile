@@ -11,4 +11,8 @@ alembic = "*"
 [dev-packages]
 
 [requires]
+<<<<<<< HEAD
 python_version = "3.12"
+=======
+python_version = "3.12"
+>>>>>>> 617/main

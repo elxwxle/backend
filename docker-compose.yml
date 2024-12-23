@@ -1,4 +1,8 @@
 version: "3"
+<<<<<<< HEAD
+=======
+
+>>>>>>> 617/main
 services:
   app:
     build:
@@ -9,11 +13,19 @@ services:
       - ./app:/code/app
     depends_on:
       - db
+<<<<<<< HEAD
+=======
+
+>>>>>>> 617/main
   db:
     image: postgres:14
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+<<<<<<< HEAD
+=======
+
+>>>>>>> 617/main
 volumes:
   postgres_data:
